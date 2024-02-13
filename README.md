@@ -20,4 +20,4 @@ Our goal is to offer you these tools to incorporate vanilla javascript in a simp
 ## How to use this repository
 This repository will contain a collection of examples and exercises that you can use to learn and practice vanilla javascript.
 
-The final website (after the hour) will be in the solutions branch.
+The final website (after the hour) will be in the demo branch.
