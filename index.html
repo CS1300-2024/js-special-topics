@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <style>
+            .tracking {
+                background-color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Header</h1>
+
+        <p>Paragraph</p>
+
+        <button id="button">Click me!</button>
+    </body>
+
+    <script>
+        // array store the positions
+        let positions = []; 
+
+        // add interactivity to html elements
+        document.addEventListener('mousemove', (event) => {
+            // decompose the cursor position from the event callback argument
+            const {pageX, pageY} = event;
+
+            // if you're holding shift, do not add to the dom
+            if (event.shiftKey) {
+                return; 
+            }
+
+            const newelement = document.createElement('div');
+            newelement.style.top = (pageY - 5) + 'px';
+            newelement.style.left = (pageX - 5) + 'px';
+            newelement.style.position = 'absolute';
+            newelement.style.width = '10px';
+            newelement.style.height = '10px';
+            newelement.style.borderRadius = '100%'; // make it a circle
+            // add circle tag so we can track it for deletion later
+            newelement.classList.add('tracking');
+
+            // positions.push({pageX, pageY}) // DO NOT DO THIS IN REACT
+            positions = [...positions, {pageX, pageY}] // make a new copy instead
+
+            // append the element onto the body
+            document.body.append(newelement);
+        });
+
+        // add a click hander to the button!
+        const button = document.querySelector('#button'); // get the button element
+        button.addEventListener('click', () => {
+            // print every position
+            positions.forEach(pos => {
+                console.log(pos);
+            });
+
+            // map each position to its index
+            let mappedPositions = positions.map((pos, i) => { // optional second callback argument is the index!
+                // this will be the value the element is reaplced with
+                return {
+                    pageX: pos.pageX,
+                    pageY: pos.pageY,
+                    index: i
+                }
+            })
+
+            // keep only the positions that have even
+            mappedPositions = mappedPositions.filter(pos => {
+                // if this value is true, it stays in the array!
+                return pos.index % 2 == 0;
+            });
+
+            console.log(mappedPositions); // see in console
+
+            // after using query selector to get a element, you can modify it as before!
+            // turn button blue
+            button.style.backgroundColor = 'blue';
+            // remove all circles when you click the button
+            const dots = document.querySelectorAll('.tracking').forEach(
+                element => element.remove()
+            )
+            // disable the button, will not fire click handler again
+            button.setAttribute('disabled', 'true');
+            // not: you can set any attribute with this -> more to come on that :)
+        });
+
+       
+    </script>
+</html>
